@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Album Zdjęć z Pokazem Slajdów</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden; /* Ukrywanie treści poza obszarem ekranu */
+            background-color: rgb(11, 110, 72);
+        }
+
+        .slider-container {
+            perspective: 1000px;
+            position: relative;
+            width: 100vw;
+            height: 70vh; /* Dostosuj wysokość zdjęcia według potrzeb */
+            overflow: hidden;
+        }
+
+        .slide-wrapper {
+            display: flex;
+            transition: transform 1s ease-in-out;
+            width: calc(100vw * 15); /* szerokość wszystkich zdjęć */
+        }
+
+        .slide {
+            flex: 0 0 100vw;
+            max-height: 70vh; /* Dostosuj maksymalną wysokość zdjęcia według potrzeb */
+            object-fit: contain; /* Zmiana, aby zachować proporcje obrazu */
+            margin: 10px;
+        }
+
+        .gradient-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, rgba(18, 18, 18, 0.7) 0%, rgba(18, 18, 18, 0) 100%);
+            pointer-events: none; /* Zapobiega zakłócaniu interakcji z elementami pod spodem */
+            z-index: 1;
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: rgba(11, 110, 72, 0.7); /* Przezroczyste tło stopki */
+            text-align: center;
+            padding: 10px;
+            color: white;
+        }
+
+        .footer a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Zdjęcia do albumu -->
+<div class="slider-container">
+    <div class="gradient-overlay"></div>
+    <div class="slide-wrapper">
+        <img class="slide" src="zimawidok.jpg" alt="Zdjęcie 1">
+        <img class="slide" src="piwo.jpg" alt="Zdjęcie 2">
+        <!-- Dodaj kolejne zdjęcia w podobny sposób -->
+    </div>
+</div>
+
+<!-- Stopka -->
+<div class="footer">
+    <a href="prezent.html">Powrót</a>
+</div>
+
+<script>
+    const slideWrapper = document.querySelector('.slide-wrapper');
+    let currentSlide = 0;
+    const totalSlides = document.querySelectorAll('.slide').length;
+
+    function showSlide(index) {
+        const translateValue = -index * 100 + 'vw';
+        slideWrapper.style.transform = 'translateX(' + translateValue + ')';
+        document.querySelector('.gradient-overlay').style.background = `linear-gradient(to right, rgba(18, 18, 18, 0.7) 0%, rgba(18, 18, 18, 0) ${(index + 1) * (100 / totalSlides)}%)`;
+    }
+
+    function nextSlide() {
+        currentSlide = (currentSlide + 1) % totalSlides;
+        showSlide(currentSlide);
+    }
+
+    setInterval(nextSlide, 5000); // Przewijanie co 5 sekundy (5000 milisekund)
+</script>
+
+</body>
+</html>
